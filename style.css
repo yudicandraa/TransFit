@@ -1,0 +1,103 @@
+  body {
+      background-color: #f0f2f5;
+      font-family: 'Poppins', sans-serif;
+  }
+
+  .sidebar {
+      height: 100vh;
+      background-color: #1c1f26;
+      color: white;
+  }
+
+  #date_button {
+      background-color: #f8f9fa;
+      /* Default background, or whatever your current default is */
+      color: #212529;
+      /* Default text color */
+      border: 2px solid #dee2e6;
+      /* Optional: add a border if you want */
+      transition: background-color 0.3s ease, color 0.3s ease;
+      /* Smooth transition for hover */
+  }
+
+  #tab-button:hover {
+      background-color: #2B2A64;
+      /* New background color on hover */
+      color: #ffffff;
+      /* White text color for better contrast on hover */
+  }
+
+  /* If you want the active tab to also have the new color, you'd add something like this: */
+  .tab-button.active {
+      background-color: #2B2A64;
+      color: #ffffff;
+  }
+.sidebar-toggle .btn-light {
+  padding: 4px 6px;
+  margin-bottom: 4px;
+}
+
+
+  .sidebar h4 {
+      padding: 20px;
+      font-weight: 600;
+  }
+
+  .sidebar p {
+      padding-left: 20px;
+      margin-bottom: 0;
+  }
+
+  .sidebar .btn {
+      width: 90%;
+      margin: 10px auto;
+      text-align: left;
+  }
+
+  .dashboard-title {
+      font-weight: 600;
+      font-size: 24px;
+  }
+
+  .card-icon {
+      font-size: 32px;
+  }
+
+  .table thead {
+      background-color: #f8f9fa;
+  }
+
+  .table th,
+  .table td {
+      vertical-align: middle;
+  }
+
+  #btn-pengunjung {
+      background-color: #ffffff;
+      width: 95%;
+      height: 55px;
+  }
+
+  #btn-inventaris {
+      background-color: #ffffff;
+      width: 95%;
+      height: 55px;
+  }
+
+  /* Sidebar transition effect */
+  .sidebar {
+      transition: transform 0.3s ease-in-out;
+  }
+
+  /* Tersembunyi di kiri */
+  .sidebar-hidden {
+      transform: translateX(-100%);
+      position: absolute;
+      z-index: 1030;
+      /* Supaya tetap di atas */
+  }
+
+  /* Konten penuh saat sidebar disembunyikan */
+  .content-expanded {
+      width: 100% !important;
+  }

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Pengunjung - TransFit</title>
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .bg-pink {
+      background-color: #E9A8BD;
+      color: #000;
+    }
+
+    .atur-jadwal {
+      width: 120px;
+      height: 38px;
+      font-size: 14px;
+    }
+
+    .progress {
+      height: 6px;
+      background-color: #e9ecef;
+      border-radius: 5px;
+    }
+
+    .progress-bar {
+      height: 3px;
+      border-radius: 5px;
+    }
+
+    .badge.jumlah {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 6px 10px;
+    }
+
+    .datepicker {
+      z-index: 1600 !important;
+    }
+
+    table th,
+    table td {
+      vertical-align: middle;
+    }
+
+    .sidebar-toggle {
+      transition: width 0.3s;
+      width: 250px;
+    }
+
+    .sidebar-toggle.collapsed {
+      width: 85px;
+    }
+
+    .sidebar-toggle .sidebar-label {
+      transition: opacity 0.5s, visibility 0.2s;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar-toggle.collapsed .sidebar-label {
+      opacity: 0;
+      visibility: hidden;
+      width: 0;
+      margin: 0;
+    }
+
+    .sidebar-toggle img {
+      transition: margin 0.5s;
+    }
+
+    .sidebar-toggle.collapsed img {
+      margin-right: 0 !important;
+    }
+
+    .main-content {
+      transition: margin-left 0.3s;
+      margin-left: 250px;
+    }
+
+    .sidebar-toggle.collapsed~.main-content {
+      margin-left: 85px;
+    }
+ #tabel-pengunjung {
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+      margin-top: 3rem;
+    }
+
+    #tabel-pengunjung h5 {
+      font-weight: 600;
+      color: #292D32;
+      font-size: 18px;
+    }
+
+    #tabel-pengunjung table {
+      border-radius: 0.6rem;
+      overflow: hidden;
+    }
+
+    #tabel-pengunjung .table th {
+      background-color: #bababa;
+      color: #000000;
+    }
+
+
+    #tabel-detail {
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+      margin-top: 3rem;
+    }
+
+    #tabel-detail h5 {
+      font-weight: 600;
+      color: #292D32;
+      font-size: 18px;
+    }
+
+    #tabel-detail table {
+      border-radius: 0.6rem;
+      overflow: hidden;
+    }
+
+    #tabel-detail .table th {
+      background-color: #bababa;
+      color: #000000;
+    }
+
+    #pagination-controls {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    #pagination-controls .btn {
+      border-radius: 50px;
+      min-width: 36px;
+      font-size: 14px;
+      padding: 4px 10px;
+      transition: 0.6s ease-in-out;
+    }
+
+    #pagination-controls .btn:hover {
+      background-color: #2B2A64;
+      color: #fff;
+    }
+
+    #pagination-controls .btn-primary {
+      background-color: #292D32;
+      border-color: #292D32;
+      color: #fff;
+    }
+
+    @media (max-width: 767px) {
+      .sidebar-toggle {
+        display: none;
+      }
+
+      .main-content {
+        margin-left: 0 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Offcanvas Sidebar untuk Mobile -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Menu</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="d-grid gap-3">
+        <a href="data_pengunjung.html" class="btn btn-light d-flex align-items-center">
+          <img src="../assets/icon/date.svg" width="20" class="me-2">
+          <span class="fw-bold">Data Pengunjung</span>
+        </a>
+          <a href="data_inventaris.html" class="btn btn-light d-flex align-items-center">
+          <img src="../assets/icon/dumbell.svg" width="20" class="me-2">
+          <span class="fw-bold">Data Inventaris</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Desktop -->
+  <div id="sidebarToggle" class="sidebar-toggle position-fixed top-0 start-0 vh-100 d-none d-md-flex flex-column p-2"
+    style="background-color: #292D32;">
+    <button class="btn btn-secondary border-0 mb-4" id="collapseBtn">
+      <img id="sidebarLogo" src="../assets/logo/logo_transfit.png" alt="Logo" width="150">
+    </button>
+    <a href="data_pengunjung.html" class="btn btn-light text-dark d-flex align-items-center mb-3">
+      <img src="../assets/icon/date.svg" width="35" class="me-2">
+      <span class="sidebar-label fw-bold" style="font-size: 14px;">Data Pengunjung</span>
+    </a>
+    <a href="data_inventaris.html" class="btn btn-light text-dark d-flex align-items-center mb-3">
+      <img src="../assets/icon/dumbell.svg" width="35" class="me-2">
+      <span class="sidebar-label fw-bold" style="font-size: 14px;">Data Inventaris</span>
+    </a>
+  </div>
+
+  <!-- Konten Utama -->
+  <div class="main-content container py-5">
+    <button class="btn btn-outline-secondary d-md-none mb-3" data-bs-toggle="offcanvas"
+      data-bs-target="#sidebarOffcanvas">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <h2 class="fw-bold mb-5 text-center" style="font-size: 24px;">Data Pengunjung Mingguan</h2>
+
+    <div class="d-flex justify-content-center mb-4 align-items-center gap-2">
+      <input type="text" id="datepickerInput" class="form-control w-auto" style="font-size: 14px;"
+        placeholder="Pilih Jadwal">
+      <button class="btn btn-dark atur-jadwal" data-bs-toggle="modal" data-bs-target="#editJadwalModal">Edit Jadwal</button>
+
+    </div>
+
+    <div class="text-center fw-bold mb-3" id="mingguLabel"></div>
+
+    <div class="d-flex align-items-center justify-content-center mb-4">
+      <span class="badge bg-info text-dark me-2" style="width: 16px; height: 16px;">&nbsp;</span> Pria
+      <span class="badge bg-pink ms-4 me-2" style="width: 16px; height: 16px;">&nbsp;</span> Wanita
+    </div>
+
+    <!-- Tombol tambahan -->
+    <div class="d-flex justify-content-center gap-3 mb-3">
+      <a href="../index.html" class="btn btn-dark">
+        <i class="bi bi-house-door"></i> Beranda
+      </a>
+      <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalQRCode">
+        <i class="bi bi-qr-code-scan"></i> Tampilkan QR
+      </button>
+
+    </div>
+
+
+    <div class="table-responsive">
+      <table id="tabel-pengunjung" class="table table-bordered text-center align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>SESI</th>
+            <th>Senin</th>
+            <th>Selasa</th>
+            <th>Rabu</th>
+            <th>Kamis</th>
+            <th>Jumat</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <!-- Tabel Detail Dinamis -->
+      <div id="tabel-detail" class="mt-4"></div>
+      <div id="pagination-controls" class="pagination-minimal"></div>
+    </div>
+  </div>
+  <!-- Modal QR Code -->
+  <div class="modal fade" id="modalQRCode" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h5 class="modal-title">QR Code</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TransFit" alt="QR Code"
+            class="img-fluid" />
+          <p class="mt-2 mb-0">Scan untuk info lebih lanjut</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Jadwal -->
+  <div class="modal fade" id="editJadwalModal" tabindex="-1" aria-labelledby="editJadwalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editJadwalModalLabel">Atur Jadwal Sesi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditJadwal">
+            <div class="mb-3">
+              <label for="select-hari" class="form-label">Pilih Hari</label>
+              <select class="form-select" id="select-hari">
+                <option value="0">Senin</option>
+                <option value="1">Selasa</option>
+                <option value="2">Rabu</option>
+                <option value="3">Kamis</option>
+                <option value="4">Jumat</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="select-sesi" class="form-label">Pilih Sesi</label>
+              <select class="form-select" id="select-sesi"></select>
+            </div>
+            <div class="mb-3">
+              <label for="select-gender" class="form-label">Peruntukan</label>
+              <select class="form-select" id="select-gender">
+                <option value="pria">Pria</option>
+                <option value="wanita">Wanita</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-primary" id="simpanPerubahanBtn">Simpan Perubahan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="data_pengunjung.js"></script>
+
+  <script>
+    const sidebar = document.getElementById('sidebarToggle');
+    const toggleBtn = document.getElementById('collapseBtn');
+    const logo = document.getElementById('sidebarLogo');
+    const mainContent = document.querySelector('.main-content');
+
+    function updateMainContentMargin() {
+      mainContent.style.marginLeft = sidebar.classList.contains('collapsed') ? '85px' : '250px';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      logo.src = sidebar.classList.contains('collapsed') ? '../assets/logo/logo_dishub.png' : '../assets/logo/logo_transfit.png';
+      logo.width = sidebar.classList.contains('collapsed') ? 50 : 150;
+      updateMainContentMargin();
+    });
+
+    // Set margin awal saat load
+    updateMainContentMargin();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TransFit: Work for Smart Work</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* No background image or color specified here in the given snippet, keeping it as is */
+        }
+
+        .sidebar-toggle {
+            transition: width 0.3s;
+            width: 250px;
+
+        }
+
+        .sidebar-toggle.collapsed {
+            width: 85px;
+        }
+
+        .sidebar-toggle .sidebar-label {
+            transition: opacity 0.2s, visibility 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .sidebar-toggle.collapsed .sidebar-label {
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
+            margin: 0;
+        }
+
+        .sidebar-toggle .btn {
+            text-align: center;
+        }
+
+        .sidebar-toggle img {
+            transition: margin 0.5s;
+        }
+
+        .sidebar-toggle.collapsed img {
+            margin-right: 0 !important;
+        }
+
+            .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    #tabel-detail {
+        background-color: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .pagination .page-link {
+        border-radius: 50px;
+        margin: 0 4px;
+        color: #292D32;
+        transition: 0.3s;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #E9A8BD;
+        color: #fff;
+    }
+
+    .pagination .active .page-link {
+        background-color: #292D32;
+        color: #fff;
+        border-color: #292D32;
+    }
+
+        @media (max-width: 767px) {
+            .sidebar-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="d-grid gap-3">
+                <a href="data/data_pengunjung.html" role="button" class="btn btn-light d-flex align-items-center">
+                    <img src="assets/icon/date.svg" width="20" class="me-2">
+                    <span class="fw-bold">Data Pengunjung</span>
+                </a>
+                <a href="data/data_inventaris.html" class="btn btn-light d-flex align-items-center">
+                    <img src="assets/icon/dumbell.svg" width="20" class="me-2">
+                    <span class="fw-bold">Data Inventaris</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div id="sidebarToggle" class="sidebar-toggle col-md-2 d-none d-md-flex flex-column p-2"
+                style="background-color: #292D32; min-height: 100vh;">
+                <button class="btn btn-secondary border-0 mb-4" id="collapseBtn">
+                    <img id="sidebarLogo" src="assets/logo/logo_transfit.png" alt="Logo" width="150">
+                </button>
+
+                <a href="data/data_pengunjung.html" role="button"
+                    class="btn btn-light text-dark d-flex align-items-center mb-3">
+                    <img src="assets/icon/date.svg" width="35" class="me-2">
+                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900;">Data Pengunjung</span>
+                </a>
+
+                <a href="data/data_inventaris.html" class="btn btn-light text-dark d-flex align-items-center mb-3">
+                    <img src="assets/icon/dumbell.svg" width="35" class="me-2">
+                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900;">Data Inventaris</span>
+                </a>
+
+
+            </div>
+
+            <div class="col-md-10 col-sm-12 p-4">
+                <button class="btn btn-outline-secondary d-md-none mb-3" data-bs-toggle="offcanvas"
+                    data-bs-target="#sidebarOffcanvas">
+                    <i class="bi bi-list"></i> </button>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="dashboard-title fw-bold" style="font-size: 28px;">Dashboard.</div>
+                    <div><strong class="fw-bold">Sabtu, 28 Juni 2025</strong></div>
+                </div>
+
+                <div class="mb-5">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm"
+                            style="width: 150px; height: 50px; border-radius: 20px 0px 0px 20px;" id="date_button">Hari
+                            Ini</button>
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">Besok</button>
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">7 Hari</button>
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">30 Hari</button>
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">1 Tahun</button>
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm"
+                            style="width: 200px; height: 50px; border-radius: 0px 20px 20px 0px;" id="lihatKalenderBtn">
+                            <i class="bi bi-calendar-event p-2"></i>Lihat Kalender
+                        </button>
+                        <input type="text" id="datepickerInput" class="d-none">
+                    </div>
+                </div>
+
+                <div class="row mb-1 ">
+                    <div class="col-md-4 mb-1 pd-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body d-flex align-items-center">
+                                <img src="assets/icon/total_pengunjung.svg" width="85px" class="card-icon me-4 mb-2"
+                                    alt="Total Pengunjung">
+                                <div>
+                                    <h5 style="font-size: 16px;">Total Pengunjung</h5>
+                                    <p class="mb-1" style="font-size: 12px;"><strong
+                                            style="font-size: 36px; color: #2B2A64; font-weight: 700;">30</strong>Orang
+                                    </p>
+                                    <small>Check-in: 25 | Pending: 5</small><br>
+                                    <a href="data/data_pengunjung.html" class="btn btn-sm btn-outline-dark mt-2" style="width: 120%;"> <i
+                                            class="bi bi-person p-2"></i>Detail Pengunjung</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-1 pd-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body d-flex align-items-center">
+                                <img src="assets/icon/total_inventaris.svg" width="85px" class="card-icon me-4 mb-2"
+                                    alt="Total Inventaris">
+                                <div>
+                                    <h5 style="font-size: 16px;">Total Peralatan Gym</h5>
+                                    <p class="mb-1" style="font-size: 12px;"><strong
+                                            style="font-size: 36px; color: #2B2A64; font-weight: 700;">25</strong>Barang
+                                    </p>
+                                    <small>Tersedia: 21 | Rusak: 2 | Perbaikan: 2</small><br>
+                                    <a href="#" class="btn btn-sm btn-outline-dark mt-2" style="width: 100%;"><i
+                                            class="bi bi-gear p-2"></i>Kelola Inventaris</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-5">
+                    <table class="table table-striped align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama</th>
+                                <th>Telepon</th>
+                                <th>Sesi</th>
+                                <th>Check-in</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Yudi</td>
+                                <td>08116065314</td>
+                                <td>1</td>
+                                <td>2025-06-25 9:30</td>
+                                <td><button class="btn btn-sm btn-outline-dark">Lihat</button></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Raihan</td>
+                                <td>08116065314</td>
+                                <td>1</td>
+                                <td>2025-06-25 9:30</td>
+                                <td><button class="btn btn-sm btn-outline-dark">Lihat</button></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Candra</td>
+                                <td>08116065314</td>
+                                <td>2</td>
+                                <td>2025-06-25 9:30</td>
+                                <td><button class="btn btn-sm btn-outline-dark">Lihat</button></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Maulana</td>
+                                <td>08116065314</td>
+                                <td>2</td>
+                                <td>2025-06-25 9:30</td>
+                                <td><button class="btn btn-sm btn-outline-dark">Lihat</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        const sidebar = document.getElementById('sidebarToggle');
+        const toggleBtn = document.getElementById('collapseBtn');
+        const logo = document.getElementById('sidebarLogo');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            logo.src = sidebar.classList.contains('collapsed') ? 'assets/logo/logo_dishub.png' : 'assets/logo/logo_transfit.png';
+            logo.width = sidebar.classList.contains('collapsed') ? 50 : 150;
+            updateMainContentMargin();
+        });
+
+        // Set margin awal saat load
+        updateMainContentMargin();
+
+        // Initialize the datepicker when the DOM is ready
+        $(document).ready(function () {
+            $('#datepickerInput').datepicker({
+                format: 'yyyy-mm-dd', // Date format
+                autoclose: true,     // Close picker when date is selected
+                todayHighlight: true, // Highlight today's date
+                orientation: 'bottom auto' // Position the picker
+                // Add other options as needed
+            });
+
+            // When the "Lihat Kalender" button is clicked, show the datepicker
+            $('#lihatKalenderBtn').on('click', function () {
+                $('#datepickerInput').datepicker('show');
+            });
+
+            // You can also get the selected date if needed
+            $('#datepickerInput').on('changeDate', function () {
+                const selectedDate = $('#datepickerInput').val();
+                console.log('Selected Date:', selectedDate);
+                // You can use this date to filter your table, etc.
+            });
+        });
+    </script>
+</body>
+
+</html>
