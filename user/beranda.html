@@ -12,17 +12,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
         }
 
-   .bg-pink {
-      background-color: #E9A8BD;
-      color: #000;
-    }
+        .bg-pink {
+            background-color: #E9A8BD;
+            color: #000;
+        }
 
         .progress {
             height: 6px;
@@ -162,6 +163,42 @@
             color: #fff;
         }
 
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #calendar {
+            width: auto;
+        }
+
+        /* Ubah warna teks default flatpickr */
+        .flatpickr-day,
+        .flatpickr-weekday,
+        .flatpickr-current-month,
+        .flatpickr-months,
+        .flatpickr-month,
+        .flatpickr-monthDropdown-months,
+        .flatpickr-monthDropdown-month {
+            color: #2B2A64;
+            /* Warna ungu gelap TransFit (ganti sesuai kebutuhan) */
+        }
+
+        /* Opsional: warna hari yang dipilih */
+        .flatpickr-day.selected,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange {
+            background: #2B2A64;
+            color: #fff;
+        }
+
+        /* Hari ini */
+        .flatpickr-day.today {
+            border: 1px solid #2B2A64;
+        }
+
+
         @media (max-width: 767px) {
             .sidebar-toggle {
                 display: none;
@@ -190,7 +227,7 @@
         </div>
         <div class="offcanvas-body">
             <div class="d-grid gap-3">
-                <a href="feedback.html" class="btn btn-light d-flex align-items-center">
+                <a href="feedback.html" class="btn btn-light d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalFeedback">
                     <img src="../assets/icon/review.png" width="20" class="me-2">
                     <span class="fw-bold" style="font-size: 14px; font-weight: 900;">Kirim Masukan</span>
                 </a>
@@ -209,9 +246,9 @@
         <button class="btn btn-secondary border-0 mb-4" id="collapseBtn">
             <img id="sidebarLogo" src="../assets/logo/logo_transfit.png" alt="Logo" width="150">
         </button>
-        <a href="feedback.html" class="btn btn-light d-flex align-items-center">
+        <a href="feedback.html" class="btn btn-light d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalFeedback">
             <img src="../assets/icon/review.png" width="35" class="me-2">
-            <span class="fw-bold" style="font-size: 14px;">Kirim Masukan</span>
+            <span class="sidebar-label fw-bold" style="font-size: 14px;">Kirim Masukan</span>
         </a>
 
         <a href="../auth/login.html" class="btn btn-light text-dark d-flex align-items-center mt-auto mb-3">
@@ -222,74 +259,210 @@
 
     <!-- Konten Utama -->
     <div class="main-content container py-5">
-    <button class="btn btn-outline-secondary d-md-none mb-3" data-bs-toggle="offcanvas"
-      data-bs-target="#sidebarOffcanvas">
-      <i class="bi bi-list"></i>
-    </button>
+        <button class="btn btn-outline-secondary d-md-none mb-3" data-bs-toggle="offcanvas"
+            data-bs-target="#sidebarOffcanvas">
+            <i class="bi bi-list"></i>
+        </button>
 
-    <h2 class="fw-bold text-left" style="font-size: 24px;">Selamat Datang, user!</h2>
-    <p class="text-left mb-5">Kamis, 30 Juni 2026</p>
+        <h2 class="fw-bold text-left" style="font-size: 24px;">Selamat Datang, user!</h2>
+        <p class="text-left mb-5">Kamis, 30 Juni 2026</p>
 
-    <div class="d-flex justify-content-left gap-3 mb-3">
-      <a href="../index.html" class="btn btn-dark">
-        <i class="bi bi-calendar"></i> Booking
-      </a>
-      <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalQRCode">
-        <i class="bi bi-qr-code-scan"></i> Scan QR
-      </button>
+        <div class="d-flex justify-content-left gap-3 mb-3">
+            <!-- Ubah tombol Booking -->
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalBooking">
+                <i class="bi bi-calendar"></i> Booking Jadwal
+            </button>
+            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalQRCode">
+                <i class="bi bi-qr-code-scan"></i> Scan QR
+            </button>
 
-    </div>
-
-   
-  <!-- Modal QR Code -->
-  <div class="modal fade" id="modalQRCode" tabindex="-1">
-    <div class="modal-dialog modal-sm modal-dialog-centered">
-      <div class="modal-content text-center">
-        <div class="modal-header">
-          <h5 class="modal-title">QR Code</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TransFit" alt="QR Code"
-            class="img-fluid" />
-          <p class="mt-2 mb-0">Scan untuk melakukan Check-in</p>
+
+        <!-- Modal Kirim Masukan -->
+        <div class="modal fade" id="modalFeedback" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content p-4">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-bold">Kirim Masukan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formFeedback">
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                    <input type="text" class="form-control" id="nama" placeholder="Nama Anda">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Tingkat Kepuasan</label>
+                                <div id="ratingStars" class="text-warning fs-4">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="masukan" class="form-label">Masukan</label>
+                                <textarea class="form-control" id="masukan" rows="3"
+                                    placeholder="Berikan Masukanmu ..."></textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">SUBMIT</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-    <div>
-        <h3 class="fw-bold mt-5" style="font-size: 20px;">Jadwal Saya</h3>
-    </div>
-  <div class="table-responsive">
-  <table id="tabel-pengunjung" class="table table-bordered text-center align-middle">
-    <thead class="table-light">
-      <tr>
-        <th>SESI</th>
-        <th>Senin</th>
-        <th>Selasa</th>
-        <th>Rabu</th>
-        <th>Kamis</th>
-        <th>Jumat</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
 
-<!-- Tabel detail dinamis -->
-<div id="tabel-detail" class="mt-4"></div>
-<div id="pagination-controls" class="d-flex justify-content-center mt-3"></div>
+        <!-- Modal QR Code -->
+        <div class="modal fade" id="modalQRCode" tabindex="-1">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content text-center">
+                    <div class="modal-header">
+                        <h5 class="modal-title">QR Code</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TransFit" alt="QR Code"
+                            class="img-fluid" />
+                        <p class="mt-2 mb-0">Scan untuk melakukan Check-in</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 class="fw-bold mt-5" style="font-size: 20px;">Jadwal Saya</h3>
+        </div>
 
-    <div>
-        <h3 class="fw-bold mt-5" style="font-size: 20px;">Jadwal Hari ini</h3>
-    </div>
-    <div class="d-flex align-items-center justify-content-left mb-4">
-      <span class="badge bg-info text-dark me-2" style="width: 12px; height: 16px;">&nbsp;</span> Pria
-      <span class="badge bg-pink text-dark ms-4 me-2" style="width: 12px; height: 16px;">&nbsp;</span> Wanita
-    </div>
-  </div>
+        <!-- Modal Booking Jadwal -->
+        <div class="modal fade" id="modalBooking" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center p-3">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title">Pilih Jadwal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="calendar"></div>
+                        <div class="mt-4 d-flex justify-content-around flex-wrap">
+                            <button class="btn btn-info m-1">08:00 - 12:00</button>
+                            <button class="btn btn-info m-1">12:00 - 16:00</button>
+                            <button class="btn btn-info m-1">16:00 - 20:00</button>
+                        </div>
+                        <button class="btn btn-primary mt-4 px-4" id="btnAturJadwal">Atur Jadwal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Modal Konfirmasi Booking -->
+        <div class="modal fade" id="modalKonfirmasi" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center p-4">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="../assets/icon/success.png" alt="Confetti" width="70" class="mb-3">
+                        <h5 class="fw-bold mb-3">Tempat Anda Telah Selesai di Booking!</h5>
+                        <h6 class="text-muted fw-bold mb-3">Jangan Lupa !</h6>
+                        <ul class="list-unstyled text-start ps-4">
+                            <li class="mb-2">
+                                ✅ Menggunakan Pakaian Training & Deodoran
+                            </li>
+                            <li class="mb-2">
+                                ✅ Meletakkan Alat di Tempatnya Sesuai Berlatih
+                            </li>
+                            <li class="mb-2">
+                                ✅ Melakukan SCAN Barcode Ketika Masuk GYM TransFit
+                            </li>
+                        </ul>
+                        <button class="btn btn-dark mt-3 px-4" data-bs-dismiss="modal">OKE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Tabel Jadwal Saya -->
+        <div class="table-responsive">
+            <table id="tabel-jadwal-saya" class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>No.</th>
+                        <th>Tanggal</th>
+                        <th>Sesi</th>
+                        <th>Status</th>
+                        <th>Jumlah Pengunjung</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>1</td>
+                        <td>30 Juni 2026</td>
+                        <td>08:00 - 12:00</td>
+                        <td><span class="badge bg-success">Check-in</span></td>
+                        <td>18 / 30</td>
+                        <td><button class="btn btn-sm btn-primary">Lihat</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Label Minggu dan Tabel Jadwal Hari Ini -->
+        <div>
+            <h3 class="fw-bold mt-5" style="font-size: 18px;">Jadwal Minggu ini
+            </h3>
+        </div>
+        <div class="d-flex align-items-center justify-content-left mb-2">
+            <span class="badge bg-info text-dark me-2" style="width: 12px; height: 13px;">&nbsp;</span> Pria
+            <span class="badge bg-pink text-dark ms-4 me-2" style="width: 12px; height: 13px;">&nbsp;</span> Wanita
+        </div>
+        <p id="mingguLabel" class="mb-3 fw-bold text-muted"></p>
+
+        <div class="table-responsive">
+            <table id="tabel-pengunjung" class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>SESI</th>
+                        <th>Senin</th>
+                        <th>Selasa</th>
+                        <th>Rabu</th>
+                        <th>Kamis</th>
+                        <th>Jumat</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            flatpickr("#calendar", {
+                inline: true,
+                minDate: "today",
+                defaultDate: "today",
+                dateFormat: "d-m-Y"
+            });
+        </script>
 </body>
 
 </html>
@@ -297,9 +470,8 @@
 
 
 
-  <!-- Script -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-  <script src="data_pengunjung.js"></script>
+<!-- Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="beranda.js"></script>
