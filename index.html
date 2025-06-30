@@ -52,38 +52,81 @@
             margin-right: 0 !important;
         }
 
-            .table th,
-    .table td {
-        vertical-align: middle;
-    }
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
 
-    #tabel-detail {
-        background-color: #fff;
-        border-radius: 1rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
+        #tabel-detail {
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
 
-    .pagination .page-link {
-        border-radius: 50px;
-        margin: 0 4px;
-        color: #292D32;
-        transition: 0.3s;
-    }
+        .pagination .page-link {
+            border-radius: 50px;
+            margin: 0 4px;
+            color: #292D32;
+            transition: 0.3s;
+        }
 
-    .pagination .page-link:hover {
-        background-color: #E9A8BD;
-        color: #fff;
-    }
+        .pagination .page-link:hover {
+            background-color: #E9A8BD;
+            color: #fff;
+        }
 
-    .pagination .active .page-link {
-        background-color: #292D32;
-        color: #fff;
-        border-color: #292D32;
+        .pagination .active .page-link {
+            background-color: #292D32;
+            color: #fff;
+            border-color: #292D32;
+        }
+    .card:hover {
+      transform: translateY(-5px);
     }
-
         @media (max-width: 767px) {
             .sidebar-toggle {
                 display: none;
+            }
+
+            #dateFilterGroup button {
+                min-width: 5% !important;
+                font-size: 12px !important;
+            }
+
+            .card-body {
+                flex-direction: column;
+                align-items: flex-start !important;
+                text-align: left;
+                 width: 100% !important
+               ;
+            }
+
+            .card-body img {
+                margin-bottom: 1rem;
+                 width: 10% !important
+            }
+
+            .card .btn {
+                width: 100% !important;
+            }
+
+            .dashboard-title {
+                font-size: 24px !important;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-group .btn {
+                border-radius: 20px !important;
+                width: 100% !important;
+                margin-bottom: 8px;
+            }
+
+            .table-responsive {
+                font-size: 14px;
             }
         }
     </style>
@@ -106,6 +149,10 @@
                     <img src="assets/icon/dumbell.svg" width="20" class="me-2">
                     <span class="fw-bold">Data Inventaris</span>
                 </a>
+                  <a href="logout.html" class="btn btn-light text-dark d-flex align-items-center mt-auto mb-3">
+                    <img src="assets/icon/LogoutIcon.svg" width="20" class="me-2">
+                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900;">Keluar</span>
+                </a>
             </div>
         </div>
     </div>
@@ -122,14 +169,17 @@
                 <a href="data/data_pengunjung.html" role="button"
                     class="btn btn-light text-dark d-flex align-items-center mb-3">
                     <img src="assets/icon/date.svg" width="35" class="me-2">
-                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900;">Data Pengunjung</span>
+                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900; ">Data Pengunjung</span>
                 </a>
 
                 <a href="data/data_inventaris.html" class="btn btn-light text-dark d-flex align-items-center mb-3">
                     <img src="assets/icon/dumbell.svg" width="35" class="me-2">
-                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900;">Data Inventaris</span>
+                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900; ">Data Inventaris</span>
                 </a>
-
+                <a href="logout.html" class="btn btn-light text-dark d-flex align-items-center mt-auto mb-3">
+                    <img src="assets/icon/LogoutIcon.svg" width="35" class="me-2">
+                    <span class="sidebar-label" style="font-size: 14px; font-weight: 900;">Keluar</span>
+                </a>
 
             </div>
 
@@ -144,21 +194,32 @@
                 </div>
 
                 <div class="mb-5">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm"
-                            style="width: 150px; height: 50px; border-radius: 20px 0px 0px 20px;" id="date_button">Hari
-                            Ini</button>
-                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">Besok</button>
-                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">7 Hari</button>
-                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">30 Hari</button>
-                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm">1 Tahun</button>
-                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm"
-                            style="width: 200px; height: 50px; border-radius: 0px 20px 20px 0px;" id="lihatKalenderBtn">
-                            <i class="bi bi-calendar-event p-2"></i>Lihat Kalender
+                    <div class="d-flex flex-wrap gap-2 justify-content-center" id="dateFilterGroup">
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm px-3"
+                            style="min-width: 70px; height: 45px; border-radius: 20px 0 0 20px;">Hari Ini</button>
+
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm px-3"
+                            style="min-width: 70px; height: 45px;">Besok</button>
+
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm px-3"
+                            style="min-width: 70px; height: 45px;">7 Hari</button>
+
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm px-3"
+                            style="min-width: 70px; height: 45px;">30 Hari</button>
+
+                        <button type="button" class="btn btn-outline-dark border-0 shadow-sm px-3"
+                            style="min-width: 70px; height: 45px;">1 Tahun</button>
+
+                        <button type="button"
+                            class="btn btn-outline-dark border-0 shadow-sm d-flex align-items-center justify-content-center gap-1"
+                            style="min-width: 70px; height: 45px; border-radius: 0 20px 20px 0;">
+                            <i class="bi bi-calendar-event"></i><span>Lihat Kalender</span>
                         </button>
+
                         <input type="text" id="datepickerInput" class="d-none">
                     </div>
                 </div>
+
 
                 <div class="row mb-1 ">
                     <div class="col-md-4 mb-1 pd-3">
@@ -172,8 +233,8 @@
                                             style="font-size: 36px; color: #2B2A64; font-weight: 700;">30</strong>Orang
                                     </p>
                                     <small>Check-in: 25 | Pending: 5</small><br>
-                                    <a href="data/data_pengunjung.html" class="btn btn-sm btn-outline-dark mt-2" style="width: 120%;"> <i
-                                            class="bi bi-person p-2"></i>Detail Pengunjung</a>
+                                    <a href="data/data_pengunjung.html" class="btn btn-sm btn-outline-dark mt-2"
+                                        style="width: 120%;"> <i class="bi bi-person p-2"></i>Detail Pengunjung</a>
                                 </div>
                             </div>
                         </div>

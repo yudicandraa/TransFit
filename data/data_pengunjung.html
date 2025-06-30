@@ -173,6 +173,11 @@
       .main-content {
         margin-left: 0 !important;
       }
+      #atur_jadwal {
+        width: 100px;
+        height: 80%;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -195,6 +200,10 @@
           <img src="../assets/icon/dumbell.svg" width="20" class="me-2">
           <span class="fw-bold">Data Inventaris</span>
           </a>
+        <a href="logout.html" class="btn btn-danger text-white d-flex align-items-center mt-auto mb-3">
+          <img src="../assets/icon/LogoutIcon.svg" width="20" class="me-2">
+          <span class="sidebar-label" style="font-size: 14px; font-weight: 900; ">Keluar</span>
+        </a>
       </div>
     </div>
   </div>
@@ -213,6 +222,10 @@
       <img src="../assets/icon/dumbell.svg" width="35" class="me-2">
       <span class="sidebar-label fw-bold" style="font-size: 14px;">Data Inventaris</span>
     </a>
+    <a href="logout.html" class="btn btn-light text-dark d-flex align-items-center mt-auto mb-3">
+      <img src="../assets/icon/LogoutIcon.svg" width="35" class="me-2">
+      <span class="sidebar-label fw-bold" style="font-size: 14px;">Keluar</span>
+    </a>
   </div>
 
   <!-- Konten Utama -->
@@ -227,7 +240,7 @@
     <div class="d-flex justify-content-center mb-4 align-items-center gap-2">
       <input type="text" id="datepickerInput" class="form-control w-auto" style="font-size: 14px;"
         placeholder="Pilih Jadwal">
-      <button class="btn btn-dark atur-jadwal" data-bs-toggle="modal" data-bs-target="#editJadwalModal">Edit Jadwal</button>
+      <button class="btn btn-dark atur-jadwal" data-bs-toggle="modal" data-bs-target="#editJadwalModal" id="atur_jadwal">Edit Jadwal</button>
 
     </div>
 

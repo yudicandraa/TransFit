@@ -125,18 +125,72 @@
       .main-content {
         margin-left: 0 !important;
       }
+
+      #btnTambah {
+        font-size: 9px;
+      }
+
+      .main-content h2 {
+        font-size: 16px;
+      }
+
+      #homeButton {
+        width: 30px;
+        height: 30px;
+      }
+
+      #statistik h5 {
+        font-size: 14px;
+      }
+
+      #tabelInventaris h5 {
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      #tabelInventaris .table th {
+        font-size: 10px;
+        align-items: center;
+      }
+
+      #tabelInventaris .table td {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Sidebar -->
+  <!-- Offcanvas Sidebar untuk Mobile -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Menu</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="d-grid gap-3">
+        <a href="data_pengunjung.html" class="btn btn-light d-flex align-items-center">
+          <img src="../assets/icon/date.svg" width="20" class="me-2">
+          <span class="fw-bold">Data Pengunjung</span>
+        </a>
+        <a href="data_inventaris.html" class="btn btn-light d-flex align-items-center">
+          <img src="../assets/icon/dumbell.svg" width="20" class="me-2">
+          <span class="fw-bold">Data Inventaris</span>
+        </a>
+        <a href="logout.html" class="btn btn-danger text-white d-flex align-items-center mt-auto mb-3">
+          <img src="../assets/icon/LogoutIcon.svg" width="20" class="me-2">
+          <span class="sidebar-label" style="font-size: 14px; font-weight: 900;">Keluar</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Desktop -->
   <div id="sidebarToggle" class="sidebar-toggle position-fixed top-0 start-0 vh-100 d-none d-md-flex flex-column p-2"
     style="background-color: #292D32;">
     <button class="btn btn-secondary border-0 mb-4" id="collapseBtn">
       <img id="sidebarLogo" src="../assets/logo/logo_transfit.png" alt="Logo" width="150">
     </button>
-
     <a href="data_pengunjung.html" class="btn btn-light text-dark d-flex align-items-center mb-3">
       <img src="../assets/icon/date.svg" width="35" class="me-2">
       <span class="sidebar-label fw-bold" style="font-size: 14px;">Data Pengunjung</span>
@@ -145,15 +199,24 @@
       <img src="../assets/icon/dumbell.svg" width="35" class="me-2">
       <span class="sidebar-label fw-bold" style="font-size: 14px;">Data Inventaris</span>
     </a>
+    <a href="logout.html" class="btn btn-light text-dark d-flex align-items-center mt-auto mb-3">
+      <img src="../assets/icon/LogoutIcon.svg" width="35" class="me-2">
+      <span class="sidebar-label fw-bold" style="font-size: 14px;">Keluar</span>
+    </a>
   </div>
 
   <!-- Konten Utama -->
   <div class="main-content">
-
+ <div class="d-md-none mb-3">
+        <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
     <div class="d-flex justify-content-between align-items-center mb-4">
+     
       <h2>Data Inventaris Gym</h2>
       <div class="d-flex align-items-center">
-        <button class="btn btn-tambah me-2" data-bs-toggle="modal" data-bs-target="#modalTambah">+ Tambah
+        <button class="btn btn-tambah me-2" data-bs-toggle="modal" data-bs-target="#modalTambah" id="btnTambah">+ Tambah
           Inventaris</button>
         <a href="../index.html" class="btn btn-dark" id="homeButton">
           <i class="bi bi-house-door"></i>
@@ -163,7 +226,7 @@
 
 
     <!-- Statistik -->
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4" id="statistik">
       <div class="col">
         <div class="card card-inventaris">
           <div class="card-body">
@@ -194,7 +257,7 @@
     </div>
 
     <!-- Tabel -->
-    <div class="table-container">
+    <div class="table-container" id="tabelInventaris">
       <h5 class="mb-3">Daftar Inventaris</h5>
       <div class="table-responsive">
         <table class="table table-bordered text-center align-middle">

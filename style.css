@@ -32,10 +32,11 @@
       background-color: #2B2A64;
       color: #ffffff;
   }
-.sidebar-toggle .btn-light {
-  padding: 4px 6px;
-  margin-bottom: 4px;
-}
+
+  .sidebar-toggle .btn-light {
+      padding: 4px 6px;
+      margin-bottom: 4px;
+  }
 
 
   .sidebar h4 {
