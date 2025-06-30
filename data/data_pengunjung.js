@@ -115,42 +115,55 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function renderDetailTable(detail) {
-        const start = (currentPage - 1) * dataPerPage;
-        const end = start + dataPerPage;
-        const dataSlice = detail.slice(start, end);
+    const start = (currentPage - 1) * dataPerPage;
+    const end = start + dataPerPage;
+    const dataSlice = detail.slice(start, end);
 
-        let html = `
-        <h5 class="text-center">Detail Pengunjung</h5>
-        <div class="table-responsive mt-3">
-          <table class="table table-bordered align-middle text-center">
-            <thead class="table-light">
-              <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>NIP</th>
-                <th>No. HP</th>
-              </tr>
-            </thead>
-            <tbody>`;
+    let html = `
+    <h5 class="text-center">Detail Pengunjung</h5>
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered align-middle text-center">
+        <thead class="table-light">
+          <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>NIP</th>
+            <th>No. HP</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>`;
 
-        if (dataSlice.length === 0) {
-            html += `<tr><td colspan="4" class="text-muted">Tidak ada data pengunjung.</td></tr>`;
-        } else {
-            dataSlice.forEach((item, i) => {
-                html += `
-                <tr>
-                  <td>${start + i + 1}</td>
-                  <td>${item.nama}</td>
-                  <td>${item.nip}</td>
-                  <td>${item.hp}</td>
-                </tr>`;
-            });
-        }
-
-        html += `</tbody></table></div><div id="pagination-controls" class="d-flex justify-content-center mt-3"></div>`;
-        document.getElementById("tabel-detail").innerHTML = html;
+    if (dataSlice.length === 0) {
+        html += `<tr><td colspan="5" class="text-muted">Tidak ada data pengunjung.</td></tr>`;
+    } else {
+        dataSlice.forEach((item, i) => {
+            html += `
+            <tr>
+              <td>${start + i + 1}</td>
+              <td>${item.nama}</td>
+              <td>${item.nip}</td>
+              <td>${item.hp}</td>
+              <td>
+<button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>`;
+        });
     }
 
+    html += `</tbody></table></div><div id="pagination-controls" class="d-flex justify-content-center mt-3"></div>`;
+    document.getElementById("tabel-detail").innerHTML = html;
+
+    // Tambahkan event listener untuk tombol hapus
+    document.querySelectorAll(".btn-hapus").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const index = parseInt(this.dataset.index);
+            detail.splice(index, 1); // hapus dari data asli
+            renderDetailTable(detail); // render ulang
+            renderPagination(detail); // render ulang pagination
+        });
+    });
+}
     function renderPagination(detail) {
         const totalPages = Math.ceil(detail.length / dataPerPage);
         const paginationDiv = document.getElementById("pagination-controls");
