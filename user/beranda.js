@@ -176,68 +176,65 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   updateStars();
+  // --- PERBAIKAN KODE QR SCANNER DIMULAI DI SINI ---
 
-  // Modal Kamera QR: jalankan saat modal dibuka
   const modalKamera = document.getElementById('modalkamera');
+  let html5QrcodeScanner; // Deklarasikan variabel di luar agar bisa diakses untuk stop
 
+  // Fungsi yang akan dijalankan ketika QR code berhasil di-scan
+  const onScanSuccess = (decodedText, decodedResult) => {
+    console.log(`Code matched = ${decodedText}`, decodedResult);
+    document.getElementById('hasilScan').innerText = `Scan Berhasil: ${decodedText}`;
+
+    // Hentikan scanner setelah berhasil
+    html5QrcodeScanner.clear().catch(error => {
+      console.error("Gagal menghentikan scanner.", error);
+    });
+
+    // Tutup modal secara otomatis setelah 1 detik
+    setTimeout(() => {
+      const modalInstance = bootstrap.Modal.getInstance(modalKamera);
+      modalInstance.hide();
+    }, 1000);
+
+    // Di sini Anda bisa menambahkan logika lain, misalnya mengirim hasil scan ke server.
+  };
+
+  // Fungsi untuk konfigurasi dan memulai scanner
+  const startScanner = () => {
+    // Hapus elemen video lama, karena library akan membuatnya sendiri
+    document.getElementById('reader').innerHTML = "";
+    document.getElementById('hasilScan').innerText = "";
+
+    // Konfigurasi scanner
+    html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", // ID dari div tempat scanner akan ditampilkan
+      {
+        fps: 10, // Frames per second
+        qrbox: { width: 250, height: 250 }, // Ukuran kotak pemindaian
+        videoConstraints: {
+          facingMode: "environment" // Ini kunci untuk menggunakan kamera belakang
+        }
+      },
+            /* verbose= */ false); // Set false untuk tidak menampilkan log detail dari library
+
+    // Render scanner
+    html5QrcodeScanner.render(onScanSuccess);
+  };
+
+
+  // Jalankan scanner ketika modal kamera dibuka
   modalKamera.addEventListener('shown.bs.modal', function () {
-    const video = document.querySelector("#video-webcam");
+    startScanner();
+  });
 
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
-          video.srcObject = stream;
-          video.play();
-        })
-        .catch(function (err) {
-          alert("Gagal mengakses kamera: " + err.message);
-        });
-    } else {
-      alert("Browser tidak mendukung getUserMedia.");
-    }
-    // Dummy QR Scan Logic
-let dummyScanTimeout;
-modalKamera.addEventListener('shown.bs.modal', function () {
-  const video = document.querySelector("#video-webcam");
-
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(function (stream) {
-        video.srcObject = stream;
-        video.play();
-
-        // Dummy QR scan setelah 3 detik
-        dummyScanTimeout = setTimeout(() => {
-          document.getElementById("hasilScan").innerText = "QR Berhasil Dipindai!";
-          const kameraModal = bootstrap.Modal.getInstance(modalKamera);
-          kameraModal.hide();
-
-          setTimeout(() => {
-            const modalKonfirmasi = new bootstrap.Modal(document.getElementById('modalKonfirmasi'));
-            modalKonfirmasi.show();
-          }, 500);
-        }, 3000);
-      })
-      .catch(function (err) {
-        alert("Gagal mengakses kamera: " + err.message);
+  // Hentikan scanner ketika modal ditutup untuk melepaskan kamera
+  modalKamera.addEventListener('hidden.bs.modal', function () {
+    if (html5QrcodeScanner) {
+      html5QrcodeScanner.clear().catch(error => {
+        console.error("Gagal menghentikan scanner saat modal ditutup.", error);
       });
-  } else {
-    alert("Browser tidak mendukung getUserMedia.");
-  }
-});
-
-// Hentikan kamera dan reset teks saat modal ditutup
-modalKamera.addEventListener('hidden.bs.modal', function () {
-  const video = document.querySelector("#video-webcam");
-  const stream = video.srcObject;
-  if (stream) {
-    stream.getTracks().forEach(track => track.stop());
-  }
-  video.srcObject = null;
-  document.getElementById("hasilScan").innerText = "";
-  clearTimeout(dummyScanTimeout);
-});
-
+    }
   });
 });
 
