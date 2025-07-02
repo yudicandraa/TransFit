@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
           persen >= 80
             ? "bg-danger"
             : persen >= 50
-            ? "bg-warning"
-            : "bg-success";
+              ? "bg-warning"
+              : "bg-success";
         const badgeClass =
           row.gender[hariIndex] === "pria" ? "bg-info text-dark" : "bg-pink";
 
@@ -113,19 +113,19 @@ document.addEventListener("DOMContentLoaded", function () {
       modalKonfirmasi.show();
     }, 500);
   });
-   const sidebar = document.getElementById('sidebarToggle');
-        const toggleBtn = document.getElementById('collapseBtn');
-        const logo = document.getElementById('sidebarLogo');
+  const sidebar = document.getElementById('sidebarToggle');
+  const toggleBtn = document.getElementById('collapseBtn');
+  const logo = document.getElementById('sidebarLogo');
 
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            logo.src = sidebar.classList.contains('collapsed') ? '../assets/logo/logo_dishub.png' : '../assets/logo/logo_transfit.png';
-            logo.width = sidebar.classList.contains('collapsed') ? 50 : 150;
-            updateMainContentMargin();
-        });
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    logo.src = sidebar.classList.contains('collapsed') ? '../assets/logo/logo_dishub.png' : '../assets/logo/logo_transfit.png';
+    logo.width = sidebar.classList.contains('collapsed') ? 50 : 150;
+    updateMainContentMargin();
+  });
 
-        // Set margin awal saat load
-        updateMainContentMargin();
+  // Set margin awal saat load
+  updateMainContentMargin();
   // ✅ Modal Feedback - Validasi & Submit Opsional
   const formFeedback = document.getElementById("formFeedback");
   const modalFeedbackEl = document.getElementById("modalFeedback");
@@ -182,5 +182,54 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   updateStars();
+
+  let html5QrCode;
+  const qrModalEl = document.getElementById("modalkamera");
+
+  qrModalEl.addEventListener("shown.bs.modal", () => {
+    const qrRegion = document.getElementById("reader");
+    const hasilScan = document.getElementById("hasilScan");
+
+    if (!html5QrCode) {
+      html5QrCode = new Html5Qrcode("reader");
+    }
+
+    Html5Qrcode.getCameras().then((devices) => {
+      if (devices && devices.length) {
+        const cameraId = devices[0].id;
+        html5QrCode.start(
+          cameraId,
+          {
+            fps: 10,
+            qrbox: 250
+          },
+          (decodedText, decodedResult) => {
+            hasilScan.innerText = `✅ QR Terdeteksi: ${decodedText}`;
+            html5QrCode.stop().then(() => {
+              html5QrCode.clear();
+            });
+          },
+          (errorMessage) => {
+            // console.log(`QR Scan error: ${errorMessage}`);
+          }
+        );
+      }
+    }).catch((err) => {
+      hasilScan.innerText = `❌ Kamera tidak ditemukan: ${err}`;
+    });
+  });
+
+  qrModalEl.addEventListener("hidden.bs.modal", () => {
+    if (html5QrCode) {
+      html5QrCode.stop().then(() => {
+        html5QrCode.clear();
+      }).catch((err) => {
+        console.error("Gagal menghentikan kamera:", err);
+      });
+    }
+    document.getElementById("hasilScan").innerText = "";
+  });
+
+
 
 });
